@@ -101,6 +101,11 @@ export class PlantSensor {
   readonly #findDevice = async (): Promise<Device> => {
     await this.#adapter.setPowered(true);
 
+    await this.#adapter.setDiscoveryFilter({
+      serviceUUIDs: ['00001204-0000-1000-8000-00805f9b34fb'],
+      transport: 'le',
+    });
+
     const [device] = await this.#adapter.getDevices(this.#deviceAddress);
 
     if (device) {
