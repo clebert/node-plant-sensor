@@ -1,6 +1,6 @@
 {
   "name": "@clebert/node-plant-sensor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Node.js API for the Xiaomi Plant Sensor with native TypeScript support.",
   "bugs": {
     "url": "https://github.com/clebert/node-plant-sensor/issues"
