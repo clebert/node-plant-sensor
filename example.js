@@ -1,22 +1,17 @@
-// @ts-check
+import {Adapter} from '@clebert/node-bluez';
+import {PlantSensor} from './lib/index.js';
 
-const {Adapter} = require('@clebert/node-bluez');
-const {PlantSensor} = require('./lib/cjs');
-
-Adapter.use(async (adapter) => {
-  const plantSensor = new PlantSensor(adapter, 'XX:XX:XX:XX:XX:XX');
+await Adapter.use(async (adapter) => {
+  const plantSensor = new PlantSensor(adapter, `XX:XX:XX:XX:XX:XX`);
   const data = await plantSensor.getData();
 
-  console.log('Temperature (°C):', data.temperature);
-  console.log('Illuminance (lx):', data.illuminance);
-  console.log('Moisture (%):', data.moisture);
-  console.log('Conductivity (µS/cm):', data.conductivity);
+  console.log(`Temperature (°C):`, data.temperature);
+  console.log(`Illuminance (lx):`, data.illuminance);
+  console.log(`Moisture (%):`, data.moisture);
+  console.log(`Conductivity (µS/cm):`, data.conductivity);
 
   const properties = await plantSensor.getProperties();
 
-  console.log('Battery level (%):', properties.batteryLevel);
-  console.log('Firmware version:', properties.firmwareVersion);
-}).catch((error) => {
-  console.error(error);
-  process.exit(1);
+  console.log(`Battery level (%):`, properties.batteryLevel);
+  console.log(`Firmware version:`, properties.firmwareVersion);
 });

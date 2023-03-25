@@ -1,5 +1,4 @@
-import {Adapter, Device} from '@clebert/node-bluez';
-import {TextDecoder} from 'util';
+import type {Adapter, Device} from '@clebert/node-bluez';
 
 export interface PlantSensorOptions {
   /** Default: `50` milliseconds (ms) */
@@ -34,7 +33,7 @@ export class PlantSensor {
   constructor(
     adapter: Adapter,
     deviceAddress: string,
-    options: PlantSensorOptions = {}
+    options: PlantSensorOptions = {},
   ) {
     this.#adapter = adapter;
     this.#deviceAddress = deviceAddress;
@@ -47,20 +46,22 @@ export class PlantSensor {
     await device.connect();
 
     try {
-      const sensorDataWriteCharacteristic = await device.waitForGattCharacteristic(
-        '00001a00-0000-1000-8000-00805f9b34fb',
-        {pollInterval: this.#options.pollInterval}
-      );
+      const sensorDataWriteCharacteristic =
+        await device.waitForGattCharacteristic(
+          `00001a00-0000-1000-8000-00805f9b34fb`,
+          {pollInterval: this.#options.pollInterval},
+        );
 
       await sensorDataWriteCharacteristic.writeValue([0xa0, 0x1f]);
 
-      const sensorDataReadCharacteristic = await device.waitForGattCharacteristic(
-        '00001a01-0000-1000-8000-00805f9b34fb',
-        {pollInterval: this.#options.pollInterval}
-      );
+      const sensorDataReadCharacteristic =
+        await device.waitForGattCharacteristic(
+          `00001a01-0000-1000-8000-00805f9b34fb`,
+          {pollInterval: this.#options.pollInterval},
+        );
 
       const sensorData = new DataView(
-        new Uint8Array(await sensorDataReadCharacteristic.readValue()).buffer
+        new Uint8Array(await sensorDataReadCharacteristic.readValue()).buffer,
       );
 
       return {
@@ -80,13 +81,14 @@ export class PlantSensor {
     await device.connect();
 
     try {
-      const propertiesReadCharacteristic = await device.waitForGattCharacteristic(
-        '00001a02-0000-1000-8000-00805f9b34fb',
-        {pollInterval: this.#options.pollInterval}
-      );
+      const propertiesReadCharacteristic =
+        await device.waitForGattCharacteristic(
+          `00001a02-0000-1000-8000-00805f9b34fb`,
+          {pollInterval: this.#options.pollInterval},
+        );
 
       const properties = new DataView(
-        new Uint8Array(await propertiesReadCharacteristic.readValue()).buffer
+        new Uint8Array(await propertiesReadCharacteristic.readValue()).buffer,
       );
 
       return {
@@ -102,8 +104,8 @@ export class PlantSensor {
     await this.#adapter.setPowered(true);
 
     await this.#adapter.setDiscoveryFilter({
-      serviceUUIDs: ['00001204-0000-1000-8000-00805f9b34fb'],
-      transport: 'le',
+      serviceUUIDs: [`00001204-0000-1000-8000-00805f9b34fb`],
+      transport: `le`,
     });
 
     const [device] = await this.#adapter.getDevices(this.#deviceAddress);

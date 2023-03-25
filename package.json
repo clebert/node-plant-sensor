@@ -2,49 +2,46 @@
   "name": "@clebert/node-plant-sensor",
   "version": "0.2.0",
   "description": "A Node.js API for the Xiaomi Plant Sensor with native TypeScript support.",
-  "bugs": {
-    "url": "https://github.com/clebert/node-plant-sensor/issues"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/clebert/node-plant-sensor.git"
   },
   "license": "MIT",
-  "author": "Clemens Akens <clebert@me.com>",
+  "author": "Clemens Akens",
   "sideEffects": false,
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/esm/index.d.ts",
+  "type": "module",
+  "exports": "./lib/index.js",
   "files": [
-    "lib/cjs",
-    "lib/esm"
+    "lib"
   ],
   "scripts": {
-    "build": "run-p build:*",
-    "build:cjs": "tsc --project tsconfig.cjs.json --incremental --pretty",
-    "build:esm": "tsc --project tsconfig.esm.json --incremental --pretty",
-    "ci": "run-p build format:test lint",
-    "format": "prettier --write '**/*.{html,js,json,md,ts,tsx,yml}'",
-    "format:test": "prettier --list-different '**/*.{html,js,json,md,ts,tsx,yml}'",
-    "lint": "tslint --config tslint.json --project tsconfig.json --format verbose",
+    "ci": "run-p compile:emit format:check lint",
+    "postci": "npm run compile:check",
+    "compile:check": "tsc",
+    "compile:emit": "tsc --project tsconfig.emit.json",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint": "eslint .",
     "release": "npm version",
     "postrelease": "git push --follow-tags"
   },
   "dependencies": {
-    "d-bus-message-protocol": "^0.5.0",
-    "d-bus-type-system": "^0.14.0"
+    "d-bus-message-protocol": "^1.0.0",
+    "d-bus-type-system": "^1.0.0"
   },
   "devDependencies": {
-    "@clebert/node-bluez": "^0.6.0",
-    "@clebert/node-d-bus": "^0.7.2",
-    "@types/node": "^14.14.41",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-markdown": "^3.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
-    "tslint": "^6.1.3",
-    "typescript": "^4.2.4"
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.2"
   },
   "peerDependencies": {
-    "@clebert/node-bluez": "^0.6.0",
-    "@clebert/node-d-bus": "^0.7.0"
+    "@clebert/node-bluez": "^1.0.0",
+    "@clebert/node-d-bus": "^1.0.0"
   }
 }
