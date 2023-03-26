@@ -1,5 +1,5 @@
-import {Adapter} from '@clebert/node-bluez';
 import {PlantSensor} from './lib/index.js';
+import {Adapter} from '@clebert/node-bluez';
 
 await Adapter.use(async (adapter) => {
   const plantSensor = new PlantSensor(adapter, `XX:XX:XX:XX:XX:XX`);
