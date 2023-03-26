@@ -17,7 +17,6 @@ npm install @clebert/node-plant-sensor @clebert/node-bluez @clebert/node-d-bus
 - Designed from the ground up with TypeScript.
 - Supports reading the temperature, illuminance, moisture, and conductivity.
 - Supports reading the battery level and firmware version.
-- Tested with Node.js 14 on Raspberry Pi OS Lite.
 
 ## Usage example
 
